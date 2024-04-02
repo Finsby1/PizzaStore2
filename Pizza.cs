@@ -16,5 +16,6 @@ namespace VS_UML2
         {
             return $"{Number}: {Name} - {Price}kr.";
         }
+
     }
 }

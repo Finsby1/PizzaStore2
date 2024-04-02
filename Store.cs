@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Xml.Linq;
 
 namespace VS_UML2
 {
@@ -16,35 +19,34 @@ namespace VS_UML2
         }
         public void Test()
         {
-            Pizza p = new Pizza() { Number = 1, Name = "Margherita", Price = 80 };
-            menuCatalog.Create(p);
+            List<Pizza> list = new List<Pizza>()
+            {
+                new Pizza() { Number = 1, Name = "Margherita", Price = 80 },
+                new Pizza() { Number = 2, Name = "Vesuvio", Price = 92 },
+                new Pizza() { Number = 3, Name = "Capricciosa", Price = 98 },
+                new Pizza() { Number = 4, Name = "Calzone", Price = 98 },
+            };
 
-            p = new Pizza() { Number = 2, Name = "Vesuvio", Price = 92 };
-            menuCatalog.Create(p);
+            foreach (Pizza item in list)
+            {
+                menuCatalog.Create(item);
+            }
 
-            p = new Pizza() { Number = 3, Name = "Capricciosa", Price = 98 };
-
-            p = new Pizza() { Number = 4, Name = "Calzone", Price = 98 };
-            
-            menuCatalog.Create(p);
 
             menuCatalog.PrintMenu();
 
-            menuCatalog.Read();
-
-            menuCatalog.SearchPizza();
             
 
-            Console.WriteLine();
+            /*Console.WriteLine();
             int pizzaToBeFound = 2;
             Console.WriteLine($"Finding Pizza {pizzaToBeFound}");
-            Pizza foundPizza = menuCatalog.Read(pizzaToBeFound);
+            Pizza foundPizza = menuCatalog.GetPizzaByNumber(pizzaToBeFound);
             Console.WriteLine(foundPizza);
 
             Console.WriteLine();
             string searchCriteria = "PIZZA#1";
             Console.WriteLine($"Finding Pizza starting with: {searchCriteria}");
-            foundPizza = menuCatalog.SearchPizza(searchCriteria);
+            foundPizza = menuCatalog.GetPizzaByName(searchCriteria);
             Console.WriteLine(foundPizza);
 
             /*Console.WriteLine();

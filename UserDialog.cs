@@ -14,12 +14,12 @@ namespace VS_UML2
             _menuCatalog = menuCatalog;
         }
 
-        Pizza GetNewPizza()
+        Pizza GetPizza()
         {
             Pizza pizzaItem = new Pizza();
             Console.Clear();
             Console.WriteLine("-----------------------");
-            Console.WriteLine("|   Creating Pizza    |");
+            Console.WriteLine("|     Enter Pizza     |");
             Console.WriteLine("-----------------------");
             Console.WriteLine();
             Console.Write("Enter name: ");
@@ -89,7 +89,9 @@ namespace VS_UML2
                 "0. Quit",
                 "1. Create new pizza",
                 "2. Print menu",
-                "3. Search function"
+                "3. Search function",
+                "4. Update Pizza",
+                "5. Delete Pizza"
             };
 
             while (proceed)
@@ -105,9 +107,9 @@ namespace VS_UML2
                     case 1:
                         try
                         {
-                            Pizza pizza = GetNewPizza();
-                            _menuCatalog.Create(pizza);
-                            Console.WriteLine($"You created: {pizza}");
+                            Pizza newPizza = GetPizza();
+                            _menuCatalog.Create(newPizza);
+                            Console.WriteLine($"You created: {newPizza}");
                         }
                         catch (Exception)
                         {
@@ -123,13 +125,76 @@ namespace VS_UML2
                         break;
                     case 3:
                         Console.WriteLine($"You selected: {mainMenulist[MenuChoice]}");
+                        Console.WriteLine($"Enter a number or a name of a pizza: ");
+
+                        string input = Console.ReadLine();
+                        Pizza pizza = null;
+
+                        try
+                        {
+                            int number = Int32.Parse(input);
+                            pizza = _menuCatalog.GetPizzaByNumber(number);
+                        }
+                        catch (FormatException e)
+                        {
+                            Console.WriteLine($"Unable to parse '{input}' - Message: {e.Message}");
+                            pizza = _menuCatalog.GetPizzaByName(input);
+                        }
+                        if (pizza != null)
+                        {
+                            Console.WriteLine($"You found: {pizza}");
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("Pizza not found");
+                        }
+
+
                         Console.Write("Hit any key to continue");
                         Console.ReadKey();
                         break;
+
+                    case 4:
+                        try
+                        {
+                            Pizza updatePizza = GetPizza();
+                            _menuCatalog.Update(updatePizza);
+                            _menuCatalog.PrintMenu();
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine($"No pizza updated");
+                        }
+                        Console.Write("Hit any key to continue");
+                        Console.ReadKey();
+                        break;
+
+                    case 5:
+                        Console.WriteLine($"Enter a number of a pizza: ");
+                        string deleteInput = Console.ReadLine();
+                        try
+                        {
+                            
+                            int number = Int32.Parse(deleteInput);
+                            _menuCatalog.Delete(number);
+                            _menuCatalog.PrintMenu();
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine($"Could not delete pizza");
+                        }
+                        Console.Write("Hit any key to continue");
+                        Console.ReadKey();
+                        break;
+
                     default:
                         Console.Write("Hit any key to continue");
                         Console.ReadKey();
                         break;
+
+
+
                 }
             }
         }
