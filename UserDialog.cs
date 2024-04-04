@@ -137,8 +137,17 @@ namespace VS_UML2
                         }
                         catch (FormatException e)
                         {
-                            Console.WriteLine($"Unable to parse '{input}' - Message: {e.Message}");
-                            pizza = _menuCatalog.GetPizzaByName(input);
+                            if(_menuCatalog.GetPizzaByName != null)
+                            {
+                                pizza = _menuCatalog.GetPizzaByName(input);
+                            }
+
+                            else
+                            {
+                                Console.WriteLine($"Unable to parse '{input}' - Message: {e.Message}");
+                            }
+                            
+                            
                         }
                         if (pizza != null)
                         {
